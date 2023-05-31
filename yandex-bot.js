@@ -25,7 +25,7 @@ if (text !=== undefined) {
         text.dispatchEvent(new Event('input', { bubbles: true, cancelable: true}));
         let button = document.getElementsByClassName("search3__button")[0];
         text.value += keyword[i];
-        i +=;
+        i ++;
         if (i === keyword.length) {
             clearInterval(timerId);
             button.click();
@@ -45,7 +45,7 @@ if (text !=== undefined) {
     }, getrandom(2000, 5000));
 } else {
 	//Работаем в поисковой выдаче
-    for (let i = 0; i < links.length; i+=) {
+    for (let i = 0; i < links.length; i++) {
         if (links[i].href.indexOf("napli.ru") !== -1) {
             const link = links[i];
             nextYandexPage = false;
