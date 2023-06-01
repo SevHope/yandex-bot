@@ -1,23 +1,39 @@
 // ==UserScript==
 // @name         Yandex Bot
 // @namespace    http://tampermonkey.net/
-// @version      0.1
+// @version      0.3
 // @description  try to take over the world!
 // @author       Sevastianova Nadezhda
 // @match        https://ya.ru/*
 // @match        https://yandex.ru/*
 // @match        https://napli.ru/*
+// @match        https://kiteuniverse.ru/*
+// @match        https://www.motoreforma.com/*
 // @icon         data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
 // @grant        none
 // ==/UserScript==
 
-const keywords = ["как использовать devtools браузера", "10 самых популярных шрифтов от Google", "Отключение редакций и ревизий", "Вывод произвольных типов записей"];
-const keyword = keywords[getrandom(0, keywords.length)];
+let sites = {
+  "napli.ru": ["как использовать devtools браузера", "10 популярных шрифтов от Google", "редакции и ревизии в вордпресс", "Вывод произвольных типов записей"],
+  "kiteuniverse.ru": ["Шоу воздушных змеев", "Kite Universe", " наземные ветровые арт инсталляции"],
+  "motoreforma.com": ["прошивки для CAN-AM", "тюнинг для BRP", "тюнинг Maverick X3"]
+}
+let site = Object.keys(sites)[getRandom(0, Object.keys(sites).length)];
+let keywords = sites[site];
+let keyword = keywords[getRandom(0, keywords.length)];
 const text = document.getElementsByClassName("search3__input")[0];
 const links = document.links;
 let nextYandexPage = true;
 
-if (text !=== undefined) {
+if (text !== undefined) {
+  document.cookie = `site=${site}`;
+} else if (location.hostname == "ya.ru" ) {
+  site = getCookie("site");
+} else {
+  site = location.hostname;
+}
+
+if (text !== undefined) {
 	//Работаем на главной странице
     let i = 0;
     сщтые timerId = setInterval(() => {
@@ -32,7 +48,7 @@ if (text !=== undefined) {
         }
     }, 500);
 
-} else if (location.hostname === "napli.ru") {
+} else if (location.hostname === site) {
 	//Работаем на целевом сайте
     console.log("мы на целевом сайте");
     setInterval(() => {
@@ -41,12 +57,12 @@ if (text !=== undefined) {
             location.href = "https://ya.ru/";
         }
 	//Перебираем ссылки и проверяем, что по ним можно кликнуть
-        if (links[index].href.indexOf("napli.ru") !== -1) links[index].click();
+        if (links[index].href.indexOf(site) !== -1) links[index].click();
     }, getrandom(2000, 5000));
 } else {
 	//Работаем в поисковой выдаче
     for (let i = 0; i < links.length; i++) {
-        if (links[i].href.indexOf("napli.ru") !== -1) {
+        if (links[i].href.indexOf(site) !== -1) {
             const link = links[i];
             nextYandexPage = false;
             console.log("нашел строку" + link);
