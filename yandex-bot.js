@@ -18,9 +18,9 @@ let sites = {
   "kiteuniverse.ru": ["Шоу воздушных змеев", "Kite Universe", " наземные ветровые арт инсталляции"],
   "motoreforma.com": ["прошивки для CAN-AM", "тюнинг для BRP", "тюнинг Maverick X3"]
 }
-let site = Object.keys(sites)[getRandom(0, Object.keys(sites).length)];
+let site = Object.keys(sites)[getrandom(0, Object.keys(sites).length)];
 let keywords = sites[site];
-let keyword = keywords[getRandom(0, keywords.length)];
+let keyword = keywords[getrandom(0, keywords.length)];
 const text = document.getElementsByClassName("search3__input")[0];
 const links = document.links;
 let nextYandexPage = true;
@@ -36,7 +36,7 @@ if (text !== undefined) {
 if (text !== undefined) {
 	//Работаем на главной странице
     let i = 0;
-    сщтые timerId = setInterval(() => {
+    const timerId = setInterval(() => {
         text.setAttribute('value', '');
         text.dispatchEvent(new Event('input', { bubbles: true, cancelable: true}));
         let button = document.getElementsByClassName("search3__button")[0];
@@ -93,4 +93,10 @@ if (nextYandexPage) {
 
 function getrandom(min, max) {
     return Math.floor(Math.random() * (max - min) + min)
+}
+function getCookie(name) {
+  let matches = document.cookie.match(new RegExp(
+    "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+  ));
+  return matches ? decodeURIComponent(matches[1]) : undefined;
 }
