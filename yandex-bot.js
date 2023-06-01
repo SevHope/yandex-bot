@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         Yandex Bot
+// @name         Yandex Bot new
 // @namespace    http://tampermonkey.net/
 // @version      0.3
 // @description  try to take over the world!
@@ -21,8 +21,8 @@ let sites = {
 let site = Object.keys(sites)[getrandom(0, Object.keys(sites).length)];
 let keywords = sites[site];
 let keyword = keywords[getrandom(0, keywords.length)];
-const text = document.getElementsByClassName("search3__input")[0];
-const links = document.links;
+let text = document.getElementsByClassName("search3__input")[0];
+let links = document.links;
 let nextYandexPage = true;
 
 if (text !== undefined) {
@@ -48,11 +48,11 @@ if (text !== undefined) {
         }
     }, 500);
 
-} else if (location.hostname === site) {
+} else if (location.hostname == site) {
 	//Работаем на целевом сайте
     console.log("мы на целевом сайте");
     setInterval(() => {
-        const index = getrandom(0, links.length);
+        let index = getrandom(0, links.length);
         if (getrandom(0, 101) >= 70) {
             location.href = "https://ya.ru/";
         }
@@ -63,7 +63,7 @@ if (text !== undefined) {
 	//Работаем в поисковой выдаче
     for (let i = 0; i < links.length; i++) {
         if (links[i].href.indexOf(site) !== -1) {
-            const link = links[i];
+            let link = links[i];
             nextYandexPage = false;
             console.log("нашел строку" + link);
             setTimeout(() => {
@@ -74,8 +74,8 @@ if (text !== undefined) {
     }
 }
 //Если не нашли на первой странице выдачи
-const elementExist = setInterval(() => {
-    const element = document.getElementsByClassName(".Pager-Item");
+let elementExist = setInterval(() => {
+    let element = document.getElementsByClassName(".Pager-Item");
     if (element !== undefined) {
         if (element.innerText === "5") {
             nextYandexPage = false;
@@ -86,7 +86,7 @@ const elementExist = setInterval(() => {
 }, 100)
 if (nextYandexPage) {
     setTimeout(() => {
-        const nextPage = document.getElementsByClassName("Pager-Item_type_next")[0];
+        let nextPage = document.getElementsByClassName("Pager-Item_type_next")[0];
         nextPage.click();
     }, getrandom(3000, 8000))
 }
